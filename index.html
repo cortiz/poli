@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 border">
+            <form id="params">
+                <div class="form-group">
+                    <label for="encryptText">Encrypt Text</label>
+                    <textarea class="form-control" id="encryptText" rows="3" name="encryptText"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="kasiskibabbage">Kasiski y Babbage</label>
+                    <input type="number" value="5" class="form-control" id="kasiskibabbage" name="kasiskibabbage"/>
+                </div>
+                <div class="form-group">
+                    <label for="kasiskibabbage">Tamaño de la llave</label>
+                    <input type="number" value="" class="form-control" id="keysize" name="keysize"/>
+                </div>
+                <button type="button" id="Preliminar" class="btn btn-primary">Kasiski y Babbage</button>
+                <button type="button" id="Friedman" class="btn btn-primary">Friedman</button>
+            </form>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 border">
+            <div class="row">
+                <div class="col-12 border-bottom">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                               aria-controls="home" aria-selected="true">Frecuencia</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                               aria-controls="profile" aria-selected="false">Kasiski y Babbage</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                               aria-controls="contact" aria-selected="false">Friedman</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="txt-tab" data-toggle="tab" href="#txt" role="tab"
+                               aria-controls="txt" aria-selected="false">SubTextos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tree-tab" data-toggle="tab" href="#tree" role="tab"
+                               aria-controls="tree" aria-selected="false">Arboles</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"></div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"></div>
+                        <div class="tab-pane fade" id="txt" role="tabpanel" aria-labelledby="tree-tab"></div>
+                        <div class="tab-pane fade" id="tree" role="tabpanel" aria-labelledby="tree-tab"></div>
+                    </div>
+                </div>
+            </div>
+        <br/><br/>
+            <div class="col-12">
+
+            </div>
+            <br/><br/>
+        </div>
+    </div>
+</div>
+
+</div>
+<script id="countLetters" type="text/x-handlebars-template">
+ <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Letra</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Cantidad</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {{#eachInMap letters}}
+                                <tr>
+                                    <th>{{key}}</th>
+                                    <td>{{value}}</td>
+                                    <td>{{percent value ../total}}%</td>
+                                </tr>
+                                {{/eachInMap}}
+                                </tbody>
+                            </table>
+</script>
+
+<script id="tkasiskibabbage" type="text/x-handlebars-template">
+    <table class="table table-hover" id="table_kasiskibabbage">
+        <thead>
+        <tr>
+            <th scope="col">Patron</th>
+            <th scope="col">Distancia</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each pattern}}
+        <tr>
+            <th>{{@key}}</th>
+            <th  id="distance-{{@key}}"data-distance="{{distance this}}">{{distance this}}</th>
+        </tr>
+        {{/each}}
+        </tbody>
+
+        <tfoot>
+        <tr>
+            <th></th>
+            <th>M.C.D: <span id="mcd" data-value="{{mcd pattern}}">{{ mcd pattern}}</span></th>
+        </tr>
+        </tfoot>
+    </table>
+</script>
+
+<script id="tFriedman" type="text/x-handlebars-template">
+    <table class="table" id="table_Friedman">
+        <thead>
+        <tr>
+            {{#each splits}}
+            <td class="text-center">
+                T {{sum @index 1}}
+            </td>
+            <td></td>
+            {{/each}}
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {{#each splits}}
+            <td class="text-center">
+                    <table class="table table-hover">
+                        <tbody>
+                        {{#eachInMap this}}
+                        <tr>
+                            <td>{{key}}</td>
+                            <td>{{value}}</td>
+                                <td>{{percent2 value ../this}}</td>
+                        </tr>
+                        {{/eachInMap}}
+                        </tbody>
+                    </table>
+            </td>
+            <td class="text-center">
+               Total {{tsum this}} <br/>
+                <hr/>
+               IC {{ic this}}
+            </td>
+            {{/each}}
+        </tr>
+        </tbody>
+
+    </table>
+</script>
+
+<script id="ttxt" type="text/x-handlebars-template">
+
+    <table class="table" id="table_txt">
+
+        {{#each txts}}
+        <tr>
+            <td class="text-center">
+                {{join this.text}}
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+
+<script id="ttree" type="text/x-handlebars-template">
+
+    <div class="row">
+        {{#each trees}}
+        <div class="col-2 border text-center">
+            T {{{sum @index 1}}}
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="row">
+    {{#each trees}}
+        <div class="col-2 border text-center">
+            {{{this}}}
+        </div>
+    {{/each}}
+    </div>
+
+
+</script>
+
+
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/math.min.js"></script>
+<script src="js/handlebars.min.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
